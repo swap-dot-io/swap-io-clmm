@@ -7,7 +7,7 @@ seeds = false
 amm_v3 = "CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK"
 
 [registry]
-url = "https://github.com/raydium-io/raydium-amm-v3"
+url = "https://github.com/swap-dot-io/swap-io-clmm"
 
 [provider]
 cluster = "localnet"

@@ -11,11 +11,11 @@ use states::*;
 
 #[cfg(not(feature = "no-entrypoint"))]
 solana_security_txt::security_txt! {
-    name: "raydium-clmm",
-    project_url: "https://raydium.io",
-    contacts: "link:https://immunefi.com/bounty/raydium",
-    policy: "https://immunefi.com/bounty/raydium",
-    source_code: "https://github.com/raydium-io/raydium-clmm",
+    name: "swap-io-clmm",
+    project_url: "https://swap.io",
+    contacts: "link:https://immunefi.com/bounty/swapio",
+    policy: "https://immunefi.com/bounty/swapio",
+    source_code: "https://github.com/swap-dot-io/swap-io-clmm",
     preferred_languages: "en",
     auditors: "https://github.com/raydium-io/raydium-docs/blob/master/audit/OtterSec%20Q3%202022/Raydium%20concentrated%20liquidity%20(CLMM)%20program.pdf"
 }

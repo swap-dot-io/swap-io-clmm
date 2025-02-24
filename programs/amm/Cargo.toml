@@ -1,13 +1,13 @@
 [package]
-name = "raydium-amm-v3"
+name = "swap-io-clmm"
 version = "0.1.0"
-description = "Anchor client and source for Raydium concentrated liquidity AMM"
+description = "Anchor client and source for SwapIO concentrated liquidity AMM"
 edition = "2021"
-keywords = ["solana", "anchor", "raydium"]
+keywords = ["solana", "anchor", "raydium", "swapio"]
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "raydium_amm_v3"
+name = "swap_io_clmm"
 doctest = false
 
 [features]
