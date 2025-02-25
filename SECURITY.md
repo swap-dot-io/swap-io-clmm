@@ -51,6 +51,7 @@ The following vulnerabilities are excluded from rewards under this bug bounty pr
 - Vulnerabilities requiring access to privileged keys/credentials.
 - MEV vectors the team is already aware of.
 - The CLMM contract emits trading fee and farming yield tokens to LPs. If tokens from the vault or fees were drained by an attacker, users would not be able to claim yield and transactions would fail. This is by design and not considered a vulnerability.
+- Bugs previously fixed by the Raydium team.
 
 ## Concentrated Liquidity Assets in Scope
 
