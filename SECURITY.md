@@ -30,7 +30,7 @@ All bugs should be submitted via Hackenproof using the link provided above. Plea
 
 ## Payout Information
 
-Payouts are handled directly by the swap.io team and are denominated in USD. Payouts can be made in RAY, SOL, or USDC.
+Payouts are handled directly by the swap.io team and are denominated in USD. Payouts can be made in USDC or SOL on the Solana network.
 
 ## Out of Scope & Rules
 
