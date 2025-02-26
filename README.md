@@ -1,6 +1,6 @@
-Raydium-Amm-v3 is an open-sourced concentrated liquidity market maker (CLMM) program built for the Solana ecosystem.
+Swap.io CLMM is an open-sourced concentrated liquidity market maker (CLMM) program built for the Solana ecosystem. This project is a fork of Raydium's CLMM, and while it builds upon the original design, it has been adapted and enhanced by the Swap.io team. For reference, you can review the original project at [Raydium-Amm-v3](https://github.com/raydium-io/raydium-amm-v3).
 
-**Concentrated Liquidity Market Maker (CLMM)** pools allow liquidity providers to select a specific price range at which liquidity is active for trades within a pool. This is in contrast to constant product Automated Market Maker (AMM) pools, where all liquidity is spread out on a price curve from 0 to ∞. For LPs, CLMM design enables capital to be deployed with higher efficiency and earn increased yield from trading fees. For traders, CLMMs improve liquidity depth around the current price which translates to better prices and lower price impact on swaps. CLMM pools can be configured for pairs with different volatility.
+**Concentrated Liquidity Market Maker (CLMM)** pools allow liquidity providers to select a specific price range at which liquidity is active for trades within a pool. This is in contrast to constant product Automated Market Maker (AMM) pools, where all liquidity is spread out on a price curve from 0 to ∞. For LPs, the CLMM design enables capital to be deployed with higher efficiency and earn increased yield from trading fees. For traders, CLMMs improve liquidity depth around the current price which translates to better prices and lower price impact on swaps. CLMM pools can be configured for pairs with different volatility.
 
 ## Environment Setup
 1. Install `Rust`
@@ -31,8 +31,8 @@ Raydium-Amm-v3 is an open-sourced concentrated liquidity market maker (CLMM) pro
 
 Clone the repository and enter the source code directory.
 ```
-git clone https://github.com/raydium-io/raydium-amm-v3
-cd raydium-amm-v3
+git clone https://github.com/swap-dot-io/swap-io-clmm
+cd swap-io-clmm
 ```
 
 Build
@@ -52,4 +52,4 @@ Attention, check your configuration and confirm the environment you want to depl
 An example of calling clmm can be found [here](https://github.com/raydium-io/raydium-cpi-example/tree/master/clmm-cpi)
 
 # License
-The source code is [licensed](https://github.com/raydium-io/raydium-clmm/blob/master/LICENSE) under Apache 2.0.
+The source code is [licensed](https://github.com/swap-dot-io/swap-io-clmm/blob/master/LICENSE) under Apache 2.0.
