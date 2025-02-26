@@ -1,9 +1,9 @@
 # swap.io CLMM Bug Bounty Program
 
 The full bug bounty program for swap.io CLMM is now hosted on Hackenproof. You can find all the details at:  
-https://dashboard.hackenproof.com/manager/companies/swap-dot-io/swap-dot-io-smart-contracts/program_info
+https://hackenproof.com/programs/swap-dot-io-smart-contracts
 
-## Rewards by Threat Level
+## 💰 Rewards by Threat Level
 
 Rewards are distributed according to the impact of the vulnerability based on the Hackenproof Vulnerability Severity Classification System. This is a simplified 5-level scale, focusing on the impact of the vulnerability reported.
 
@@ -19,7 +19,7 @@ For critical smart contract bug reports, rewards will be further capped at 10% o
 
 Bugs in auxiliary libraries or code outside of the smart contracts will be assessed on a case-by-case basis.
 
-## Report Submission
+## 📢 Report Submission
 
 All bugs should be submitted via Hackenproof using the link provided above. Please include a detailed description of the attack vector and a Proof of Concept for high- and critical-severity reports. Once submitted, you will receive a response with additional questions or next steps within 3 business days.
 
@@ -28,11 +28,11 @@ All bugs should be submitted via Hackenproof using the link provided above. Plea
 - **Reward Time:** 3 business days  
 - **Resolution Time:** 14 days
 
-## Payout Information
+## ℹ️ Payout Information
 
-Payouts are handled directly by the swap.io team and are denominated in USD. Payouts can be made in USDC or SOL on the Solana network.
+Rewards are administered and paid out by [Hackenproof](https://hackenproof.com/programs/swap-dot-io-smart-contracts). All payouts are denominated in USD, with rewards issued in USDC or SOL on the Solana network. Hackenproof reviews and confirms each reported bug before processing the payout.
 
-## Out of Scope & Rules
+## 🚫 Out of Scope & Rules
 
 The following vulnerabilities are excluded from rewards under this bug bounty program:
 
@@ -53,7 +53,7 @@ The following vulnerabilities are excluded from rewards under this bug bounty pr
 - The CLMM contract emits trading fee and farming yield tokens to LPs. If tokens from the vault or fees were drained by an attacker, users would not be able to claim yield and transactions would fail. This is by design and not considered a vulnerability.
 - Bugs previously fixed by the Raydium team.
 
-## Concentrated Liquidity Assets in Scope
+## 🗒 Concentrated Liquidity Assets in Scope
 
 The following targets are within the scope of this bug bounty program:
 
@@ -105,7 +105,7 @@ The following targets are within the scope of this bug bounty program:
 | [src/lib.rs](https://github.com/swap-dot-io/swap-io-clmm/blob/master/programs/amm/src/lib.rs)                                         | Smart Contract - lib                       |
 
 
-## Additional Information
+## ➕ Additional Information
 
 Documentation and instructions for creating a PoC can be found here:  
 [Original Raydium CLMM Developer Documentation](https://github.com/raydium-io/raydium-docs/blob/master/dev-resources/raydium-clmm-dev-doc.pdf)
