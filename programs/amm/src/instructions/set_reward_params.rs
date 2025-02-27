@@ -1,9 +1,8 @@
 use crate::error::ErrorCode;
 use crate::libraries::{fixed_point_64, full_math::MulDiv, U256};
 use crate::states::pool::{reward_period_limit, PoolState, REWARD_NUM};
-use crate::states::*;
 use crate::util::transfer_from_user_to_pool_vault;
-use crate::util;
+use crate::{states::*, util};
 use anchor_lang::prelude::*;
 use anchor_spl::token::Token;
 use anchor_spl::token_interface::{Mint, Token2022, TokenAccount};
