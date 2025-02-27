@@ -53,6 +53,8 @@ The following vulnerabilities are excluded from rewards under this bug bounty pr
 - The CLMM contract emits trading fee and farming yield tokens to LPs. If tokens from the vault or fees were drained by an attacker, users would not be able to claim yield and transactions would fail. This is by design and not considered a vulnerability.
 - Bugs previously fixed by the Raydium team.
 
+Please refer to our [Hackenproof profile](https://hackenproof.com/programs/swap-dot-io-smart-contracts) for the latest list of the out of scope vulnerabilities.
+
 ## 🗒 Concentrated Liquidity Assets in Scope
 
 The following targets are within the scope of this bug bounty program:
