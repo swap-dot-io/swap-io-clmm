@@ -46,7 +46,7 @@ The following vulnerabilities are excluded from rewards under this bug bounty pr
 - Sybil attacks.
 - Centralization risks.
 - Any UI bugs.
-- Bugs in the core Solana runtime (please submit these to [Solana's bug bounty program](https://github.com/solana-labs/solana/security/policy)).
+- Bugs in the core Solana runtime (please submit these to [Solana's bug bounty program](https://github.com/anza-xyz/agave/security).
 - Vulnerabilities that require a validator to execute.
 - Vulnerabilities requiring access to privileged keys/credentials.
 - MEV vectors the team is already aware of.
