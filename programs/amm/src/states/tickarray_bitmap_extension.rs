@@ -256,7 +256,7 @@ pub mod tick_array_bitmap_extension_test {
             BuildExtensionAccountInfo {
                 key: Pubkey::new_unique(),
                 lamports: 0,
-                owner: Pubkey::from_str("CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK").unwrap(),
+                owner: Pubkey::from_str("SWPammPnp7L9qFgV436u3CSPmcxU6ZQm6ttawzDTRuw").unwrap(),
                 data: vec![0; 1832],
             }
         }

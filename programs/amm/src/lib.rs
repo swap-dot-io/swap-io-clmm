@@ -23,16 +23,16 @@ solana_security_txt::security_txt! {
 }
 
 #[cfg(feature = "devnet")]
-declare_id!("devi51mZmdwUJGU9hjN27vEz64Gps7uUefqxg27EAtH");
+declare_id!("DiLcFj38BJtsyCvo6f8TM8hQb8iA5m5qwwPSM44T1Er6");
 #[cfg(not(feature = "devnet"))]
-declare_id!("CAMMCzo5YL8w4VFF8KVHrK22GGUsp5VTaW7grrKgrWqK");
+declare_id!("SWPammPnp7L9qFgV436u3CSPmcxU6ZQm6ttawzDTRuw");
 
 pub mod admin {
     use anchor_lang::prelude::declare_id;
     #[cfg(feature = "devnet")]
-    declare_id!("adMCyoCgfkg7bQiJ9aBJ59H3BXLY3r5LNLfPpQfMzBe");
+    declare_id!("GmYehSdh3VaSfxxDpPYAn3PhVX4439VbyzQ98QNVeF1j");
     #[cfg(not(feature = "devnet"))]
-    declare_id!("GThUX1Atko4tqhN2NaiTazWSeFWMuiUvfFnyJyUghFMJ");
+    declare_id!("F92EBvFBAXkcYfjrdXSNmjbmpoK1pPXLtxuZPWoJPSde");
 }
 
 #[program]
