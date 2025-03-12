@@ -19,8 +19,8 @@ client = []
 no-log-ix-name = []
 init_if_needed = []
 enable-log = []
-devnet = []
 paramset = []
+devnet = []
 
 [dependencies]
 anchor-lang = { version = "0.29.0", features = ["init-if-needed"] }

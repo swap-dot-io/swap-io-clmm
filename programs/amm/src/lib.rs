@@ -23,7 +23,7 @@ solana_security_txt::security_txt! {
 }
 
 #[cfg(feature = "devnet")]
-declare_id!("DiLcFj38BJtsyCvo6f8TM8hQb8iA5m5qwwPSM44T1Er6");
+declare_id!("78hkHGHjJuwjzJt78WewV9vJgQrFmX3oh7Kpwz9w3LHY");
 #[cfg(not(feature = "devnet"))]
 declare_id!("SWPammPnp7L9qFgV436u3CSPmcxU6ZQm6ttawzDTRuw");
 

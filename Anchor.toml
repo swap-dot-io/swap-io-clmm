@@ -6,6 +6,9 @@ seeds = false
 [programs.localnet]
 amm_v3 = "SWPammPnp7L9qFgV436u3CSPmcxU6ZQm6ttawzDTRuw"
 
+[programs.devnet]
+amm_v3 = "78hkHGHjJuwjzJt78WewV9vJgQrFmX3oh7Kpwz9w3LHY"
+
 [registry]
 url = "https://github.com/swap-dot-io/swap-io-clmm"
 
