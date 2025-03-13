@@ -2,7 +2,28 @@ Swap.io CLMM is an open-sourced concentrated liquidity market maker (CLMM) progr
 
 **Concentrated Liquidity Market Maker (CLMM)** pools allow liquidity providers to select a specific price range at which liquidity is active for trades within a pool. This is in contrast to constant product Automated Market Maker (AMM) pools, where all liquidity is spread out on a price curve from 0 to ∞. For LPs, the CLMM design enables capital to be deployed with higher efficiency and earn increased yield from trading fees. For traders, CLMMs improve liquidity depth around the current price which translates to better prices and lower price impact on swaps. CLMM pools can be configured for pairs with different volatility.
 
-## Environment Setup
+# Use
+
+## With docker compose
+
+### Build
+
+```shell
+docker compose run anchor_build ./build-script.sh
+```
+
+The output will be located in the `docker-target/` directory.
+
+### Deploy
+
+```shell
+docker compose run anchor_build anchor deploy
+```
+
+
+## Manual
+
+### Environment Setup
 1. Install `Rust`
 
    ```shell
@@ -27,7 +48,7 @@ Swap.io CLMM is an open-sourced concentrated liquidity market maker (CLMM) progr
    avm install 0.29.0
    ```
 
-## Quickstart
+### Manual build and deploy
 
 Clone the repository and enter the source code directory.
 ```
@@ -39,7 +60,7 @@ Build
 ```
 anchor build
 ```
-After building, the smart contract files are all located in the target directory.
+After building, the smart contract files are all located in the `target/` directory.
 
 Deploy
 ```
