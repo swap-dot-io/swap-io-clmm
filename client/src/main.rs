@@ -57,7 +57,7 @@ pub struct ClientConfig {
     ws_url: String,
     payer_path: String,
     admin_path: String,
-    raydium_v3_program: Pubkey,
+    swap_io_program: Pubkey,
     slippage: f64,
     amm_config_key: Pubkey,
 
@@ -98,11 +98,11 @@ fn load_cfg(client_config: &String) -> Result<ClientConfig> {
         panic!("admin_path must not be empty");
     }
 
-    let raydium_v3_program_str = config.get("Global", "raydium_v3_program").unwrap();
-    if raydium_v3_program_str.is_empty() {
-        panic!("raydium_v3_program must not be empty");
+    let swap_io_program_str = config.get("Global", "swap_io_program").unwrap();
+    if swap_io_program_str.is_empty() {
+        panic!("swap_io_program must not be empty");
     }
-    let raydium_v3_program = Pubkey::from_str(&raydium_v3_program_str).unwrap();
+    let swap_io_program = Pubkey::from_str(&swap_io_program_str).unwrap();
     let slippage = config.getfloat("Global", "slippage").unwrap().unwrap();
 
     let mut mint0 = None;
@@ -122,7 +122,7 @@ fn load_cfg(client_config: &String) -> Result<ClientConfig> {
             swap_io_clmm::states::AMM_CONFIG_SEED.as_bytes(),
             &amm_config_index.to_be_bytes(),
         ],
-        &raydium_v3_program,
+        &swap_io_program,
     );
 
     let pool_id_account = if mint0 != None && mint1 != None {
@@ -139,7 +139,7 @@ fn load_cfg(client_config: &String) -> Result<ClientConfig> {
                     mint0.unwrap().to_bytes().as_ref(),
                     mint1.unwrap().to_bytes().as_ref(),
                 ],
-                &raydium_v3_program,
+                &swap_io_program,
             )
             .0,
         )
@@ -153,7 +153,7 @@ fn load_cfg(client_config: &String) -> Result<ClientConfig> {
                     POOL_TICK_ARRAY_BITMAP_SEED.as_bytes(),
                     pool_id_account.unwrap().to_bytes().as_ref(),
                 ],
-                &raydium_v3_program,
+                &swap_io_program,
             )
             .0,
         )
@@ -166,7 +166,7 @@ fn load_cfg(client_config: &String) -> Result<ClientConfig> {
         ws_url,
         payer_path,
         admin_path,
-        raydium_v3_program,
+        swap_io_program,
         slippage,
         amm_config_key,
         mint0,
@@ -206,7 +206,7 @@ fn load_cur_and_next_five_tick_array(
                 pool_config.pool_id_account.unwrap().to_bytes().as_ref(),
                 &current_vaild_tick_array_start_index.to_be_bytes(),
             ],
-            &pool_config.raydium_v3_program,
+            &pool_config.swap_io_program,
         )
         .0,
     );
@@ -230,7 +230,7 @@ fn load_cur_and_next_five_tick_array(
                     pool_config.pool_id_account.unwrap().to_bytes().as_ref(),
                     &current_vaild_tick_array_start_index.to_be_bytes(),
                 ],
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
             )
             .0,
         );
@@ -559,7 +559,7 @@ fn main() -> Result<()> {
     let url = Cluster::Custom(anchor_config.http_url, anchor_config.ws_url);
     let wallet = read_keypair_file(&pool_config.payer_path)?;
     let anchor_client = Client::new(url, Rc::new(wallet));
-    let program = anchor_client.program(pool_config.raydium_v3_program)?;
+    let program = anchor_client.program(pool_config.swap_io_program)?;
 
     let opts = Opts::parse();
     match opts.command {
@@ -808,7 +808,7 @@ fn main() -> Result<()> {
                     swap_io_clmm::states::AMM_CONFIG_SEED.as_bytes(),
                     &config_index.to_be_bytes(),
                 ],
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
             );
             let update_amm_config_instr = update_amm_config_instr(
                 &pool_config.clone(),
@@ -887,7 +887,7 @@ fn main() -> Result<()> {
                     swap_io_clmm::states::AMM_CONFIG_SEED.as_bytes(),
                     &config_index.to_be_bytes(),
                 ],
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
             );
             let tick = tick_math::get_tick_at_sqrt_price(sqrt_price_x64).unwrap();
             println!(
@@ -927,7 +927,7 @@ fn main() -> Result<()> {
         } => {
             let mint_account = rpc_client.get_account(&reward_mint)?;
             let emissions_per_second_x64 = (emissions * fixed_point_64::Q64 as f64) as u128;
-            let program = anchor_client.program(pool_config.raydium_v3_program)?;
+            let program = anchor_client.program(pool_config.swap_io_program)?;
             println!("{}", pool_config.pool_id_account.unwrap());
             let pool_account: swap_io_clmm::states::PoolState =
                 program.account(pool_config.pool_id_account.unwrap())?;
@@ -981,7 +981,7 @@ fn main() -> Result<()> {
         } => {
             let emissions_per_second_x64 = (emissions * fixed_point_64::Q64 as f64) as u128;
 
-            let program = anchor_client.program(pool_config.raydium_v3_program)?;
+            let program = anchor_client.program(pool_config.swap_io_program)?;
             println!("{}", pool_config.pool_id_account.unwrap());
             let pool_account: swap_io_clmm::states::PoolState =
                 program.account(pool_config.pool_id_account.unwrap())?;
@@ -1156,7 +1156,7 @@ fn main() -> Result<()> {
             let position_nft_infos = get_all_nft_and_position_by_owner(
                 &rpc_client,
                 &payer.pubkey(),
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
             );
             let positions: Vec<Pubkey> = position_nft_infos
                 .iter()
@@ -1258,7 +1258,7 @@ fn main() -> Result<()> {
             let position_nft_infos = get_all_nft_and_position_by_owner(
                 &rpc_client,
                 &payer.pubkey(),
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
             );
             let positions: Vec<Pubkey> = position_nft_infos
                 .iter()
@@ -1453,7 +1453,7 @@ fn main() -> Result<()> {
             let position_nft_infos = get_all_nft_and_position_by_owner(
                 &rpc_client,
                 &payer.pubkey(),
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
             );
             let positions: Vec<Pubkey> = position_nft_infos
                 .iter()
@@ -1693,7 +1693,7 @@ fn main() -> Result<()> {
                     pool_config.pool_id_account.unwrap().to_bytes().as_ref(),
                     &tick_array_indexs.pop_front().unwrap().to_be_bytes(),
                 ],
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
             )
             .0;
             let mut remaining_accounts = Vec::new();
@@ -1711,7 +1711,7 @@ fn main() -> Result<()> {
                                 pool_config.pool_id_account.unwrap().to_bytes().as_ref(),
                                 &index.to_be_bytes(),
                             ],
-                            &pool_config.raydium_v3_program,
+                            &pool_config.swap_io_program,
                         )
                         .0,
                         false,
@@ -1888,7 +1888,7 @@ fn main() -> Result<()> {
                                 pool_config.pool_id_account.unwrap().to_bytes().as_ref(),
                                 &index.to_be_bytes(),
                             ],
-                            &pool_config.raydium_v3_program,
+                            &pool_config.swap_io_program,
                         )
                         .0,
                         false,
@@ -1957,7 +1957,7 @@ fn main() -> Result<()> {
             let position_nft_infos = get_all_nft_and_position_by_owner(
                 &rpc_client,
                 &user_wallet,
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
             );
             let positions: Vec<Pubkey> = position_nft_infos
                 .iter()
@@ -1999,7 +1999,7 @@ fn main() -> Result<()> {
                     tick,
                     pool.tick_spacing.into(),
                 );
-            let program = anchor_client.program(pool_config.raydium_v3_program)?;
+            let program = anchor_client.program(pool_config.swap_io_program)?;
             let (tick_array_key, __bump) = Pubkey::find_program_address(
                 &[
                     swap_io_clmm::states::TICK_ARRAY_SEED.as_bytes(),
@@ -2114,7 +2114,7 @@ fn main() -> Result<()> {
             };
             println!("pool_id:{}", pool_id);
             let position_accounts_by_pool = rpc_client.get_program_accounts_with_config(
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
                 RpcProgramAccountsConfig {
                     filters: Some(vec![
                         RpcFilterType::Memcmp(Memcmp::new_base58_encoded(
@@ -2172,7 +2172,7 @@ fn main() -> Result<()> {
             };
             println!("pool_id:{}", pool_id);
             let position_accounts_by_pool = rpc_client.get_program_accounts_with_config(
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
                 RpcProgramAccountsConfig {
                     filters: Some(vec![
                         RpcFilterType::Memcmp(Memcmp::new_base58_encoded(
@@ -2214,7 +2214,7 @@ fn main() -> Result<()> {
             };
             println!("pool_id:{}", pool_id);
             let tick_arrays_by_pool = rpc_client.get_program_accounts_with_config(
-                &pool_config.raydium_v3_program,
+                &pool_config.swap_io_program,
                 RpcProgramAccountsConfig {
                     filters: Some(vec![
                         RpcFilterType::Memcmp(Memcmp::new_base58_encoded(8, &pool_id.to_bytes())),
@@ -2283,7 +2283,7 @@ fn main() -> Result<()> {
         }
         CommandsName::DecodeEvent { log_event } => {
             handle_program_log(
-                &pool_config.raydium_v3_program.to_string(),
+                &pool_config.swap_io_program.to_string(),
                 &log_event,
                 false,
             )?;
@@ -2309,12 +2309,12 @@ fn main() -> Result<()> {
             let encoded_transaction = transaction.transaction;
             // decode instruction data
             parse_program_instruction(
-                &pool_config.raydium_v3_program.to_string(),
+                &pool_config.swap_io_program.to_string(),
                 encoded_transaction,
                 meta.clone(),
             )?;
             // decode logs
-            parse_program_event(&pool_config.raydium_v3_program.to_string(), meta.clone())?;
+            parse_program_event(&pool_config.swap_io_program.to_string(), meta.clone())?;
         }
     }
 

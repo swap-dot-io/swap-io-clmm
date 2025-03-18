@@ -28,7 +28,7 @@ pub fn create_amm_config_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let (amm_config_key, __bump) = Pubkey::find_program_address(
         &[AMM_CONFIG_SEED.as_bytes(), &config_index.to_be_bytes()],
         &program.id(),
@@ -63,7 +63,7 @@ pub fn update_amm_config_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let instructions = program
         .request()
         .accounts(raydium_accounts::UpdateAmmConfig {
@@ -81,7 +81,7 @@ pub fn create_operation_account_instr(config: &ClientConfig) -> Result<Vec<Instr
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let (operation_account_key, __bump) =
         Pubkey::find_program_address(&[OPERATION_SEED.as_bytes()], &program.id());
     let instructions = program
@@ -105,7 +105,7 @@ pub fn update_operation_account_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let (operation_account_key, __bump) =
         Pubkey::find_program_address(&[OPERATION_SEED.as_bytes()], &program.id());
     let instructions = program
@@ -135,7 +135,7 @@ pub fn create_pool_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let (pool_account_key, __bump) = Pubkey::find_program_address(
         &[
             POOL_SEED.as_bytes(),
@@ -218,7 +218,7 @@ pub fn open_position_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let nft_ata_token_account =
         spl_associated_token_account::get_associated_token_address(&program.payer(), &nft_mint_key);
     let (metadata_account_key, _bump) = Pubkey::find_program_address(
@@ -325,7 +325,7 @@ pub fn open_position_with_token22_nft_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let nft_ata_token_account =
         spl_associated_token_account::get_associated_token_address_with_program_id(
             &program.payer(),
@@ -425,7 +425,7 @@ pub fn increase_liquidity_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let (tick_array_lower, __bump) = Pubkey::find_program_address(
         &[
             TICK_ARRAY_SEED.as_bytes(),
@@ -510,7 +510,7 @@ pub fn decrease_liquidity_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let (personal_position_key, __bump) = Pubkey::find_program_address(
         &[POSITION_SEED.as_bytes(), nft_mint_key.to_bytes().as_ref()],
         &program.id(),
@@ -580,7 +580,7 @@ pub fn close_personal_position_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let (personal_position_key, __bump) = Pubkey::find_program_address(
         &[POSITION_SEED.as_bytes(), nft_mint_key.to_bytes().as_ref()],
         &program.id(),
@@ -620,7 +620,7 @@ pub fn swap_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let instructions = program
         .request()
         .accounts(raydium_accounts::SwapSingle {
@@ -667,7 +667,7 @@ pub fn swap_v2_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(payer));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
     let instructions = program
         .request()
         .accounts(raydium_accounts::SwapSingleV2 {
@@ -713,7 +713,7 @@ pub fn initialize_reward_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(admin));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
 
     let instructions = program
         .request()
@@ -756,7 +756,7 @@ pub fn set_reward_params_instr(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(admin));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
 
     let remaining_accounts = vec![
         AccountMeta::new(reward_token_vault, false),
@@ -796,7 +796,7 @@ pub fn transfer_reward_owner(
     let url = Cluster::Custom(config.http_url.clone(), config.ws_url.clone());
     // Client.
     let client = Client::new(url, Rc::new(admin));
-    let program = client.program(config.raydium_v3_program)?;
+    let program = client.program(config.swap_io_program)?;
 
     let instructions = program
         .request()
