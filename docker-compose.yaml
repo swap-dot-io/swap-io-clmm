@@ -1,0 +1,11 @@
+services:
+  anchor_build:
+    image: backpackapp/build:v0.29.0
+    container_name: anchor_build
+    environment:
+      - CARGO_TARGET_DIR=/workdir/docker-target
+      - PATH=/root/.local/share/solana/install/active_release/bin:/root/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    volumes:
+      - ./:/workdir
+    working_dir: /workdir
+    command: bash
