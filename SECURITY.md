@@ -1,3 +1,9 @@
+# swap.io CLMM Audit
+
+The Swap.io CLMM smart contract is a fork of the Raydium CLMM and has been audited by the Raydium team. You can view the audit report [here](https://github.com/raydium-io/raydium-docs/blob/master/audit/OtterSec%20Q3%202022/Raydium%20concentrated%20liquidity%20(CLMM)%20program.pdf).
+
+Our own audit of the modifications is pending; however, the changes are minor and are very unlikely to introduce any security issues.
+
 # swap.io CLMM Bug Bounty Program
 
 The full bug bounty program for swap.io CLMM is now hosted on Hackenproof. You can find all the details at:  
@@ -99,7 +105,6 @@ The following targets are within the scope of this bug bounty program:
 | [src/states/pool.rs](https://github.com/swap-dot-io/swap-io-clmm/blob/master/programs/amm/src/states/pool.rs)                                 | Smart Contract - pool                      |
 | [src/states/protocol_position.rs](https://github.com/swap-dot-io/swap-io-clmm/blob/master/programs/amm/src/states/protocol_position.rs)                    | Smart Contract - protocol_position         |
 | [src/states/tick_array.rs](https://github.com/swap-dot-io/swap-io-clmm/blob/master/programs/amm/src/states/tick_array.rs)                           | Smart Contract - tick_array                |
-| [src/util/access_control.rs](https://github.com/swap-dot-io/swap-io-clmm/blob/master/programs/amm/src/util/access_control.rs)                         | Smart Contract - access_control            |
 | [src/util/mod.rs](https://github.com/swap-dot-io/swap-io-clmm/blob/master/programs/amm/src/util/mod.rs)                                    | Smart Contract - util/mod                  |
 | [src/util/system.rs](https://github.com/swap-dot-io/swap-io-clmm/blob/master/programs/amm/src/util/system.rs)                                 | Smart Contract - system                    |
 | [src/util/token.rs](https://github.com/swap-dot-io/swap-io-clmm/blob/master/programs/amm/src/util/token.rs)                                  | Smart Contract - token                     |
