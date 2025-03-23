@@ -1,0 +1,14 @@
+[package]
+name = "jup-amm-sdk"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+swap-io-clmm = {path = "../programs/amm", features = ["no-entrypoint", "client"]}
+jupiter-amm-interface = "=0.4.7"
+solana-sdk = "<1.17"
+solana-client = "<1.17"
+anyhow = "1.0"
+bytemuck = { version = "1.19.0", features = ["derive", "min_const_generics"] }
+spl-token-2022 = { version = "0.9.0", features = ["no-entrypoint"]}
+rust_decimal = "1.37.1"

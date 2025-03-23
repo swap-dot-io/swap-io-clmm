@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["programs/*", "client"]
+members = ["programs/*", "client", "jup-amm-sdk"]
 
 [profile.test]
 opt-level = 0
