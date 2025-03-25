@@ -1,13 +1,11 @@
 use anchor_lang::AccountDeserialize;
 use anyhow::Result;
-use solana_sdk::account::Account;
-use swap_io_clmm::libraries::fixed_point_64;
-use swap_io_clmm::libraries::*;
-use swap_io_clmm::states::*;
 use solana_client::rpc_client::RpcClient;
+use solana_sdk::account::Account;
 use solana_sdk::pubkey::Pubkey;
 use spl_token_2022::{
     extension::{
+        BaseState, BaseStateWithExtensions, ExtensionType, StateWithExtensions,
         confidential_transfer::{ConfidentialTransferAccount, ConfidentialTransferMint},
         cpi_guard::CpiGuard,
         default_account_state::DefaultAccountState,
@@ -17,13 +15,15 @@ use spl_token_2022::{
         mint_close_authority::MintCloseAuthority,
         non_transferable::{NonTransferable, NonTransferableAccount},
         permanent_delegate::PermanentDelegate,
-        transfer_fee::{TransferFeeAmount, TransferFeeConfig, MAX_FEE_BASIS_POINTS},
-        BaseState, BaseStateWithExtensions, ExtensionType, StateWithExtensions,
+        transfer_fee::{MAX_FEE_BASIS_POINTS, TransferFeeAmount, TransferFeeConfig},
     },
     state::Mint,
 };
 use std::collections::VecDeque;
 use std::ops::{DerefMut, Mul, Neg};
+use swap_io_clmm::libraries::fixed_point_64;
+use swap_io_clmm::libraries::*;
+use swap_io_clmm::states::*;
 
 #[derive(Debug)]
 pub enum ExtensionStruct {
