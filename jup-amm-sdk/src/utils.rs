@@ -1,4 +1,6 @@
+use anchor_lang::AccountDeserialize;
 use anyhow::Result;
+use solana_sdk::account::Account;
 use swap_io_clmm::libraries::fixed_point_64;
 use swap_io_clmm::libraries::*;
 use swap_io_clmm::states::*;
@@ -38,6 +40,11 @@ pub enum ExtensionStruct {
     PermanentDelegate(PermanentDelegate),
     TransferFeeConfig(TransferFeeConfig),
     TransferFeeAmount(TransferFeeAmount),
+}
+
+pub fn deserialize_anchor_account<T: AccountDeserialize>(account: &Account) -> Result<T> {
+    let mut data: &[u8] = &account.data;
+    T::try_deserialize(&mut data).map_err(Into::into)
 }
 
 #[derive(Debug)]

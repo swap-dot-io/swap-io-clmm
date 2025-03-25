@@ -2314,6 +2314,7 @@ dependencies = [
 name = "jup-amm-sdk"
 version = "0.1.0"
 dependencies = [
+ "anchor-lang",
  "anyhow",
  "bytemuck",
  "jupiter-amm-interface",

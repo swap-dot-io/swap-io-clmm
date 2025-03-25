@@ -12,3 +12,4 @@ anyhow = "1.0"
 bytemuck = { version = "1.19.0", features = ["derive", "min_const_generics"] }
 spl-token-2022 = { version = "0.9.0", features = ["no-entrypoint"]}
 rust_decimal = "1.37.1"
+anchor-lang = "0.29.0"
