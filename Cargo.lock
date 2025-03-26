@@ -2311,7 +2311,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "jup-amm-sdk"
+name = "jup-amm-adapter"
 version = "0.1.0"
 dependencies = [
  "anchor-lang",

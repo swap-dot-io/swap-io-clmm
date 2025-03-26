@@ -2,20 +2,19 @@ use crate::utils::{
     amount_with_slippage, deserialize_anchor_account,
     get_out_put_amount_fee_and_remaining_accounts, get_transfer_fee, get_transfer_inverse_fee,
 };
+use anchor_lang::prelude::AccountMeta;
 use anyhow::Result;
 use jupiter_amm_interface::{
-    AccountMap, Amm, AmmContext, KeyedAccount, Quote, QuoteParams, SwapAndAccountMetas, SwapMode,
-    SwapParams, try_get_account_data,
+    try_get_account_data, AccountMap, Amm, AmmContext, KeyedAccount, Quote, QuoteParams, Swap, SwapAndAccountMetas, SwapMode, SwapParams
 };
 use rust_decimal::Decimal;
 use solana_sdk::pubkey::Pubkey;
 use spl_token_2022::{extension::StateWithExtensions, state::Mint};
 use std::collections::VecDeque;
 use swap_io_clmm::{
-    libraries::{U1024, check_current_tick_array_is_initialized, tick_array_bit_map},
-    states::{
-        AmmConfig, POOL_TICK_ARRAY_BITMAP_SEED, PoolState, TickArrayBitmapExtension, TickArrayState,
-    },
+    accounts::SwapSingleV2, libraries::{check_current_tick_array_is_initialized, tick_array_bit_map, U1024}, states::{
+        AmmConfig, PoolState, TickArrayBitmapExtension, TickArrayState, POOL_TICK_ARRAY_BITMAP_SEED
+    }
 };
 
 pub const NEIGHBORHOOD_SIZE: u8 = 5;
@@ -53,6 +52,14 @@ impl SwapIoClmmAdapter {
             Err(_) => vec![],
         };
         adapter
+    }
+
+    pub fn amm_config(&self) -> Option<&AmmConfig> {
+        self.amm_config.as_ref()
+    }
+
+    pub fn get_tick_array_keys(&self) -> Vec<Pubkey> {
+        self.tick_array_keys.clone()
     }
 
     pub fn pool_state(&self) -> &PoolState {
@@ -200,7 +207,12 @@ impl SwapIoClmmAdapter {
         result.extend(down_tick_arrays);
         Ok(result)
     }
+
+    pub fn get_epoch(&self) -> u64 {
+        self.epoch
+    }
 }
+
 
 impl Amm for SwapIoClmmAdapter
 where
@@ -386,9 +398,21 @@ where
 
     fn get_swap_and_account_metas(
         &self,
-        __swap_params: &SwapParams,
+        swap_params: &SwapParams,
     ) -> Result<SwapAndAccountMetas> {
-        todo!()
+        let SwapParams {
+            token_transfer_authority,
+            ..
+        } = swap_params;
+        let result = SwapAndAccountMetas {
+            swap: Swap::RaydiumClmmV2,
+            account_metas: vec![
+                AccountMeta::new_readonly(*token_transfer_authority, false), 
+                AccountMeta::new_readonly(self.pool_state().amm_config, false),
+                AccountMeta::new(self.pool_key, false),
+            ]
+        };
+        Ok(result)
     }
 
     fn clone_amm(&self) -> Box<dyn Amm + Send + Sync> {
@@ -404,7 +428,7 @@ where
     }
 
     fn supports_exact_out(&self) -> bool {
-        false
+        true
     }
 
     fn get_user_setup(&self) -> Option<jupiter_amm_interface::AmmUserSetup> {
