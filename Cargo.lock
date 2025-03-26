@@ -2323,6 +2323,7 @@ dependencies = [
  "solana-sdk",
  "spl-token-2022 0.9.0",
  "swap-io-clmm",
+ "swap-io-sdk",
 ]
 
 [[package]]
@@ -5557,6 +5558,23 @@ dependencies = [
  "spl-memo 4.0.0",
  "spl-token-metadata-interface",
  "uint",
+]
+
+[[package]]
+name = "swap-io-sdk"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "anyhow",
+ "bytemuck",
+ "jupiter-amm-interface",
+ "rust_decimal",
+ "solana-client",
+ "solana-sdk",
+ "spl-memo 4.0.0",
+ "spl-token 4.0.0",
+ "spl-token-2022 0.9.0",
+ "swap-io-clmm",
 ]
 
 [[package]]
