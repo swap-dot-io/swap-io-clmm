@@ -1,10 +1,9 @@
 use std::collections::VecDeque;
 
 use crate::utils::deserialize_anchor_account;
-use anchor_lang::prelude::AccountMeta;
 use anyhow::Result;
 use jupiter_amm_interface::{
-    AccountMap, Amm, AmmContext, KeyedAccount, Quote, QuoteParams, Swap, SwapAndAccountMetas,
+    AccountMap, Amm, AmmContext, KeyedAccount, Quote, QuoteParams, SwapAndAccountMetas,
     SwapParams, try_get_account_data,
 };
 use solana_sdk::pubkey::Pubkey;
@@ -205,7 +204,10 @@ where
     }
 
     fn get_accounts_len(&self) -> usize {
-        32 // Default to a near whole legacy transaction to penalize no implementation
+        let base_acounts = 13; //with signer
+        let tick_arrsy_bitmap_extension = 1;
+        let tick_array_accounts = NEIGHBORHOOD_SIZE;
+        base_acounts + tick_arrsy_bitmap_extension + tick_array_accounts as usize
     }
 
     fn underlying_liquidities(&self) -> Option<std::collections::HashSet<Pubkey>> {
