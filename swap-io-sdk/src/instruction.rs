@@ -71,7 +71,7 @@ impl InstructionBuilder {
         }
 
         Ok(SwapAndAccountMetas {
-            swap: todo!(),
+            swap: jupiter_amm_interface::Swap::RaydiumClmmV2,//replace with actual swap mode after integration
             account_metas,
         })
     }

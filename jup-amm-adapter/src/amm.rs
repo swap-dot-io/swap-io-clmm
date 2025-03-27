@@ -103,7 +103,7 @@ where
     }
 
     fn label(&self) -> String {
-        "SWAP-IO-CLMM".to_string()
+        "SWAP_IO_CLMM".to_string()
     }
 
     fn program_id(&self) -> Pubkey {

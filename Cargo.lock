@@ -2316,6 +2316,8 @@ version = "0.1.0"
 dependencies = [
  "anchor-lang",
  "anyhow",
+ "borsh 0.10.3",
+ "borsh-derive 0.10.3",
  "bytemuck",
  "jupiter-amm-interface",
  "rust_decimal",
@@ -2328,11 +2330,10 @@ dependencies = [
 
 [[package]]
 name = "jupiter-amm-interface"
-version = "0.4.7"
+version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "74b928a82ff9d86743b68e21dab25eab0fff483de02f06ce1980fa7aecd3fa3c"
+checksum = "cb9b8af088b8e0e948780766b7f0806422c9dc039a6406a0ed3bad575bfd32dc"
 dependencies = [
- "ahash 0.8.3",
  "anyhow",
  "borsh 0.10.3",
  "rust_decimal",
