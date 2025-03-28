@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["programs/*", "client", "jup-amm-adapter", "swap-io-sdk"]
+members = ["programs/*", "client", "swap-io-sdk"]
 
 [profile.test]
 opt-level = 0

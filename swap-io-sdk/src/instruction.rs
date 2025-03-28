@@ -1,18 +1,20 @@
 // swap_io_clmm_sdk/src/instruction.rs
 use crate::pool::PoolManager;
 use anyhow::Result;
-use jupiter_amm_interface::{SwapAndAccountMetas, SwapParams};
-use solana_sdk::instruction::AccountMeta;
+use solana_sdk::{instruction::{AccountMeta, Instruction}, pubkey::Pubkey};
 
 pub struct InstructionBuilder;
 
 impl InstructionBuilder {
     pub fn build_swap_instruction(
         pool_manager: &PoolManager,
-        swap_params: &SwapParams,
-    ) -> Result<SwapAndAccountMetas> {
-        let zero_for_one: bool = swap_params.source_mint == pool_manager.pool_state.token_mint_0
-            && swap_params.destination_mint == pool_manager.pool_state.token_mint_1;
+        source_mint: Pubkey,
+        destination_mint: Pubkey,
+        source_token_account: Pubkey,
+        destination_token_account: Pubkey,
+    ) -> Result<Instruction> {
+        let zero_for_one: bool = source_mint == pool_manager.pool_state.token_mint_0
+            && destination_mint == pool_manager.pool_state.token_mint_1;
 
         let (input_vault, output_vault, input_vault_mint, output_vault_mint) = if zero_for_one {
             (
@@ -36,9 +38,9 @@ impl InstructionBuilder {
             //pool_state
             AccountMeta::new(pool_manager.pool_key, false),
             //input_token_account
-            AccountMeta::new(swap_params.source_token_account, false),
+            AccountMeta::new(source_token_account, false),
             //output_token_account
-            AccountMeta::new(swap_params.destination_token_account, false),
+            AccountMeta::new(destination_token_account, false),
             //input_vault
             AccountMeta::new(input_vault, false),
             //output_vault
@@ -70,9 +72,6 @@ impl InstructionBuilder {
             }
         }
 
-        Ok(SwapAndAccountMetas {
-            swap: jupiter_amm_interface::Swap::RaydiumClmmV2,//replace with actual swap mode after integration
-            account_metas,
-        })
+        Ok(Instruction { program_id: pool_manager.program_id, accounts: account_metas, data: vec![] })
     }
 }

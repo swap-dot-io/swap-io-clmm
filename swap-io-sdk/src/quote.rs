@@ -8,20 +8,40 @@ use crate::{
     },
 };
 use anyhow::Result;
-use jupiter_amm_interface::{Quote, QuoteParams, SwapMode};
 use rust_decimal::Decimal;
+use solana_sdk::pubkey::Pubkey;
 use spl_token_2022::{extension::StateWithExtensions, state::Mint};
 use swap_io_clmm::states::TickArrayState;
+
+#[derive(Debug, Default, Clone, Copy)]
+pub struct Quote {
+    pub min_in_amount: Option<u64>,
+    pub min_out_amount: Option<u64>,
+    pub in_amount: u64,
+    pub out_amount: u64,
+    pub fee_amount: u64,
+    pub fee_mint: Pubkey,
+    pub fee_pct: Decimal,
+}
 
 pub struct QuoteCalculator;
 
 impl QuoteCalculator {
     pub fn calculate_quote(
-        quote_params: &QuoteParams,
+        input_mint: Pubkey,
+        output_mint: Pubkey,
+        base_in: bool,
+        amount: u64,
         pool_manager: &PoolManager,
-        mint0_data: &[u8],
-        mint1_data: &[u8],
     ) -> Result<Quote> {
+        let mint0_data = pool_manager
+            .mint0_data
+            .as_ref()
+            .ok_or_else(|| anyhow::anyhow!("Mint0Data not initialized"))?;
+        let mint1_data = pool_manager
+            .mint1_data
+            .as_ref()
+            .ok_or_else(|| anyhow::anyhow!("Mint1Data not initialized"))?;
         let amm_config = pool_manager
             .amm_config
             .as_ref()
@@ -31,11 +51,9 @@ impl QuoteCalculator {
             .tickarray_bitmap_extension
             .as_ref()
             .ok_or_else(|| anyhow::anyhow!("TickArrayBitmapExtension not initialized"))?;
-        let zero_for_one = quote_params.input_mint == pool_manager.pool_state.token_mint_0
-            && quote_params.output_mint == pool_manager.pool_state.token_mint_1;
+        let zero_for_one = input_mint == pool_manager.pool_state.token_mint_0
+            && output_mint == pool_manager.pool_state.token_mint_1;
 
-        let base_in = quote_params.swap_mode == SwapMode::ExactIn;
-        let amount = quote_params.amount;
         let mint0_state = StateWithExtensions::<Mint>::unpack(&mint0_data)?;
         let mint1_state = StateWithExtensions::<Mint>::unpack(&mint1_data)?;
         let transfer_fee = if base_in {
@@ -109,7 +127,7 @@ impl QuoteCalculator {
             in_amount: in_amount,
             out_amount: out_amount,
             fee_amount: fee_amount,
-            fee_mint: quote_params.input_mint,
+            fee_mint: input_mint,
             ..Quote::default()
         })
     }

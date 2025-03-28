@@ -1,13 +1,16 @@
 use std::collections::VecDeque;
 
 use anyhow::Result;
-use solana_sdk::pubkey::Pubkey;
+use solana_sdk::{account::Account, pubkey::Pubkey};
 use swap_io_clmm::{
     libraries::{U1024, check_current_tick_array_is_initialized, tick_array_bit_map},
     states::{
         AmmConfig, POOL_TICK_ARRAY_BITMAP_SEED, PoolState, TickArrayBitmapExtension, TickArrayState,
     },
 };
+
+use crate::utils::deserialize_anchor_account;
+pub const NEIGHBORHOOD_SIZE: u8 = 5;
 
 #[derive(Clone)]
 pub struct PoolManager {
@@ -19,11 +22,17 @@ pub struct PoolManager {
     pub up_tick_arrays: VecDeque<TickArrayState>,
     pub down_tick_arrays: VecDeque<TickArrayState>,
     pub tickarray_bitmap_extension: Option<TickArrayBitmapExtension>,
+    pub mint0_data: Option<Vec<u8>>,
+    pub mint1_data: Option<Vec<u8>>,
+    pub up_tick_array_keys: Vec<Pubkey>,
+    pub down_tick_array_keys: Vec<Pubkey>,
 }
 
 impl PoolManager {
-    pub fn new(epoch: u64, pool_key: Pubkey, program_id: Pubkey, pool_state: PoolState) -> Self {
-        PoolManager {
+    pub fn new(epoch: u64, pool_key: Pubkey, program_id: Pubkey, pool_state_account: &Account) -> Result<Self> {
+        let pool_state: PoolState =
+            deserialize_anchor_account::<PoolState>(pool_state_account)?;
+        let mut pool_manager = PoolManager {
             epoch,
             pool_key,
             program_id,
@@ -32,7 +41,22 @@ impl PoolManager {
             up_tick_arrays: VecDeque::new(),
             tickarray_bitmap_extension: None,
             down_tick_arrays: VecDeque::new(),
-        }
+            mint0_data: None,
+            mint1_data: None,
+            up_tick_array_keys: vec![],
+            down_tick_array_keys: vec![],
+        };
+
+        let (up_tick_array_keys, down_tick_array_keys) =
+            match pool_manager.get_nearest_tick_arrays(NEIGHBORHOOD_SIZE) {
+                Ok((up_tick_arrays, down_tick_arrays)) => {
+                    (up_tick_arrays.to_vec(), down_tick_arrays.to_vec())
+                }
+                Err(_) => (vec![], vec![]),
+            };
+        pool_manager.up_tick_array_keys = up_tick_array_keys;
+        pool_manager.down_tick_array_keys = down_tick_array_keys;
+        Ok(pool_manager)
     }
 
     pub fn get_reserve_mints(&self) -> Vec<Pubkey> {
@@ -193,5 +217,27 @@ impl PoolManager {
             .iter()
             .map(|tick_array| tick_array.key())
             .collect()
+    }
+
+    pub fn update(&mut self, account_map: Vec<&Account>, up_ticks: Vec<Account>, down_ticks: Vec<Account>) -> Result<()> {
+        self.amm_config = Some(deserialize_anchor_account::<AmmConfig>(&account_map[0])?);
+        self.mint0_data = Some(account_map[1].data.clone());
+        self.mint1_data = Some(account_map[2].data.clone());
+        self.tickarray_bitmap_extension =
+            Some(deserialize_anchor_account::<TickArrayBitmapExtension>(&account_map[3])?);
+        Self::update_tick_arrays(up_ticks, &mut self.up_tick_arrays)?;
+        Self::update_tick_arrays(down_ticks, &mut self.down_tick_arrays)?;
+        Ok(())
+    }
+
+    fn update_tick_arrays(
+        account_map: Vec<Account>,
+        target_arrays: &mut VecDeque<TickArrayState>,
+    ) -> Result<()> {
+        target_arrays.clear();
+        for account in account_map {
+            target_arrays.push_back(deserialize_anchor_account::<TickArrayState>(&account)?);
+        }
+        Ok(())
     }
 }

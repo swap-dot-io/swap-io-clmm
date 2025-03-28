@@ -26,7 +26,7 @@ devnet = []
 anchor-lang = { version = "0.29.0", features = ["init-if-needed"] }
 anchor-spl = { version = "0.29.0", features = ["metadata"] }
 solana-program = "<1.17.0"
-spl-memo = "4.0.0"
+spl-memo = "=4.0.0"
 uint = { git = "https://github.com/raydium-io/parity-common", package = "uint" }
 mpl-token-metadata = { version = "^1.11.0", features = ["no-entrypoint"] }
 spl-token-metadata-interface = { version = "=0.2.0" }
