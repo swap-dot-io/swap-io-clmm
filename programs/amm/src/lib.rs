@@ -17,9 +17,7 @@ solana_security_txt::security_txt! {
     policy: "https://hackenproof.com/programs/swap-dot-io-smart-contracts",
     source_code: "https://github.com/swap-dot-io/swap-io-clmm",
     preferred_languages: "en",
-    // Below is a link to the original audit by Raydium. This contract is a fork from them.
-    // You can check that audit for now, but our own audit is pending.
-    auditors: "https://github.com/raydium-io/raydium-docs/blob/master/audit/OtterSec%20Q3%202022/Raydium%20concentrated%20liquidity%20(CLMM)%20program.pdf"
+    auditors: "https://github.com/swap-dot-io/swap-io-clmm/blob/master/SECURITY.md#swapio-clmm-audit"
 }
 
 #[cfg(feature = "devnet")]
