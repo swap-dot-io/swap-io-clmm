@@ -11,7 +11,7 @@ use std::cell::RefMut;
 use std::ops::Deref;
 
 /// Memo msg for decrease liquidity
-pub const DECREASE_MEMO_MSG: &'static [u8] = b"raydium_decrease";
+pub const DECREASE_MEMO_MSG: &'static [u8] = b"swap_io_decrease";
 #[derive(Accounts)]
 pub struct DecreaseLiquidity<'info> {
     /// The position owner or delegated authority
