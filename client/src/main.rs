@@ -261,19 +261,19 @@ struct PositionNftTokenInfo {
 fn get_all_nft_and_position_by_owner(
     client: &RpcClient,
     owner: &Pubkey,
-    raydium_amm_v3_program: &Pubkey,
+    swap_io_amm_v3_program: &Pubkey,
 ) -> Vec<PositionNftTokenInfo> {
     let mut spl_nfts = get_nft_account_and_position_by_owner(
         client,
         owner,
         spl_token::id(),
-        raydium_amm_v3_program,
+        swap_io_amm_v3_program,
     );
     let spl_2022_nfts = get_nft_account_and_position_by_owner(
         client,
         owner,
         spl_token_2022::id(),
-        raydium_amm_v3_program,
+        swap_io_amm_v3_program,
     );
     spl_nfts.extend(spl_2022_nfts);
     spl_nfts
@@ -282,7 +282,7 @@ fn get_nft_account_and_position_by_owner(
     client: &RpcClient,
     owner: &Pubkey,
     token_program: Pubkey,
-    raydium_amm_v3_program: &Pubkey,
+    swap_io_amm_v3_program: &Pubkey,
 ) -> Vec<PositionNftTokenInfo> {
     let all_tokens = client
         .get_token_accounts_by_owner(owner, TokenAccountsFilter::ProgramId(token_program))
@@ -321,7 +321,7 @@ fn get_nft_account_and_position_by_owner(
                                 swap_io_clmm::states::POSITION_SEED.as_bytes(),
                                 token.to_bytes().as_ref(),
                             ],
-                            &raydium_amm_v3_program,
+                            &swap_io_amm_v3_program,
                         );
                         position_nft_accounts.push(PositionNftTokenInfo {
                             key: token_account,
