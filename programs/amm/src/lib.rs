@@ -75,6 +75,11 @@ pub mod amm_v3 {
         instructions::create_support_mint_associated(ctx)
     }
 
+     /// Close mint account which created by `create_support_mint_associated` instruction.
+     pub fn close_support_mint_associated(ctx: Context<CloseSupportMintAssociated>) -> Result<()> {
+        instructions::close_support_mint_associated(ctx)
+    }
+
     /// Updates the owner of the amm config
     /// Must be called by the current owner or admin
     ///
