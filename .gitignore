@@ -17,3 +17,7 @@ sdk/tools
 programs/amm/proptest-regressions
 client_config.ini
 deploy.md
+*.sh
+reports
+ai_docs
+.env
