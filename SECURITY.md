@@ -1,8 +1,10 @@
 # swap.io CLMM Audit
 
-The Swap.io CLMM smart contract is a fork of the Raydium CLMM and has been audited by the Raydium team. You can view the audit report [here](https://github.com/raydium-io/raydium-docs/blob/master/audit/OtterSec%20Q3%202022/Raydium%20concentrated%20liquidity%20(CLMM)%20program.pdf).
+The Swap.io CLMM smart contract is a fork of the Raydium CLMM and was initially audited by the Raydium team. You can view the original audit report [here](https://github.com/raydium-io/raydium-docs/blob/master/audit/OtterSec%20Q3%202022/Raydium%20concentrated%20liquidity%20(CLMM)%20program.pdf).
 
-Our own audit of the modifications is pending; however, the changes are minor and are very unlikely to introduce any security issues.
+In addition to the original audit, we have conducted an independent audit of our modifications. The audit was performed by Zenith Security and the report is available [here](https://github.com/swap-dot-io/swap-io/blob/main/audit/swap-io-clmm/2025-Zenith/Swap.io-CLMM-Zenith-Audit-Report-April-2025.pdf).
+
+The modifications made to the Raydium CLMM codebase are minor and were assessed to introduce no significant security risks.
 
 # swap.io CLMM Bug Bounty Program
 
