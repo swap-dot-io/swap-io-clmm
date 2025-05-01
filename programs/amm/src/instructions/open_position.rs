@@ -813,10 +813,10 @@ fn mint_nft_and_remove_mint_authority<'info>(
 
 fn get_metadata_data(personal_position_id: Pubkey) -> (String, String, String) {
     return (
-        String::from("Swap-IO Concentrated Liquidity"),
+        String::from("Swap.io Concentrated Liquidity"),
         String::from("SWPCL"),
         format!(
-            "https://dynamic-ipfs.swap.io/clmm/position?id={}",
+            "https://metanova.swap.io/solana/clmm/position?id={}",
             personal_position_id.to_string()
         ),
     );
