@@ -24,3 +24,6 @@ pub use update_pool_status::*;
 
 pub mod create_support_mint_associated;
 pub use create_support_mint_associated::*;
+
+pub mod close_support_mint_associated;
+pub use close_support_mint_associated::*;

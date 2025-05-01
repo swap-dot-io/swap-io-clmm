@@ -6,8 +6,8 @@ use solana_sdk::{
     instruction::Instruction, pubkey::Pubkey, signature::Signer, system_program, sysvar,
 };
 
-use swap_io_clmm::accounts as raydium_accounts;
-use swap_io_clmm::instruction as raydium_instruction;
+use swap_io_clmm::accounts as swap_accounts;
+use swap_io_clmm::instruction as swap_instruction;
 use swap_io_clmm::states::{
     AMM_CONFIG_SEED, OBSERVATION_SEED, OPERATION_SEED, POOL_SEED, POOL_VAULT_SEED, POSITION_SEED,
     TICK_ARRAY_SEED,
@@ -35,12 +35,12 @@ pub fn create_amm_config_instr(
     );
     let instructions = program
         .request()
-        .accounts(raydium_accounts::CreateAmmConfig {
+        .accounts(swap_accounts::CreateAmmConfig {
             owner: program.payer(),
             amm_config: amm_config_key,
             system_program: system_program::id(),
         })
-        .args(raydium_instruction::CreateAmmConfig {
+        .args(swap_instruction::CreateAmmConfig {
             index: config_index,
             tick_spacing,
             trade_fee_rate,
@@ -66,12 +66,12 @@ pub fn update_amm_config_instr(
     let program = client.program(config.swap_io_program)?;
     let instructions = program
         .request()
-        .accounts(raydium_accounts::UpdateAmmConfig {
+        .accounts(swap_accounts::UpdateAmmConfig {
             owner: admin.pubkey(),
             amm_config,
         })
         .accounts(remaining_accounts)
-        .args(raydium_instruction::UpdateAmmConfig { param, value })
+        .args(swap_instruction::UpdateAmmConfig { param, value })
         .instructions()?;
     Ok(instructions)
 }
@@ -86,12 +86,12 @@ pub fn create_operation_account_instr(config: &ClientConfig) -> Result<Vec<Instr
         Pubkey::find_program_address(&[OPERATION_SEED.as_bytes()], &program.id());
     let instructions = program
         .request()
-        .accounts(raydium_accounts::CreateOperationAccount {
+        .accounts(swap_accounts::CreateOperationAccount {
             owner: program.payer(),
             operation_state: operation_account_key,
             system_program: system_program::id(),
         })
-        .args(raydium_instruction::CreateOperationAccount)
+        .args(swap_instruction::CreateOperationAccount)
         .instructions()?;
     Ok(instructions)
 }
@@ -110,12 +110,12 @@ pub fn update_operation_account_instr(
         Pubkey::find_program_address(&[OPERATION_SEED.as_bytes()], &program.id());
     let instructions = program
         .request()
-        .accounts(raydium_accounts::UpdateOperationAccount {
+        .accounts(swap_accounts::UpdateOperationAccount {
             owner: program.payer(),
             operation_state: operation_account_key,
             system_program: system_program::id(),
         })
-        .args(raydium_instruction::UpdateOperationAccount { param, keys })
+        .args(swap_instruction::UpdateOperationAccount { param, keys })
         .instructions()?;
     Ok(instructions)
 }
@@ -170,7 +170,7 @@ pub fn create_pool_instr(
     );
     let instructions = program
         .request()
-        .accounts(raydium_accounts::CreatePool {
+        .accounts(swap_accounts::CreatePool {
             pool_creator: program.payer(),
             amm_config,
             pool_state: pool_account_key,
@@ -185,7 +185,7 @@ pub fn create_pool_instr(
             system_program: system_program::id(),
             rent: sysvar::rent::id(),
         })
-        .args(raydium_instruction::CreatePool {
+        .args(swap_instruction::CreatePool {
             sqrt_price_x64,
             open_time,
         })
@@ -260,7 +260,7 @@ pub fn open_position_instr(
     );
     let instructions = program
         .request()
-        .accounts(raydium_accounts::OpenPositionV2 {
+        .accounts(swap_accounts::OpenPositionV2 {
             payer: program.payer(),
             position_nft_owner: nft_to_owner,
             position_nft_mint: nft_mint_key,
@@ -285,7 +285,7 @@ pub fn open_position_instr(
             vault_1_mint: token_mint_1,
         })
         .accounts(remaining_accounts)
-        .args(raydium_instruction::OpenPositionV2 {
+        .args(swap_instruction::OpenPositionV2 {
             liquidity,
             amount_0_max,
             amount_1_max,
@@ -363,7 +363,7 @@ pub fn open_position_with_token22_nft_instr(
     );
     let instructions = program
         .request()
-        .accounts(raydium_accounts::OpenPositionWithToken22Nft {
+        .accounts(swap_accounts::OpenPositionWithToken22Nft {
             payer: program.payer(),
             position_nft_owner: nft_to_owner,
             position_nft_mint: nft_mint_key,
@@ -386,7 +386,7 @@ pub fn open_position_with_token22_nft_instr(
             vault_1_mint: token_mint_1,
         })
         .accounts(remaining_accounts)
-        .args(raydium_instruction::OpenPositionWithToken22Nft {
+        .args(swap_instruction::OpenPositionWithToken22Nft {
             liquidity,
             amount_0_max,
             amount_1_max,
@@ -458,7 +458,7 @@ pub fn increase_liquidity_instr(
 
     let instructions = program
         .request()
-        .accounts(raydium_accounts::IncreaseLiquidityV2 {
+        .accounts(swap_accounts::IncreaseLiquidityV2 {
             nft_owner: program.payer(),
             nft_account: nft_token_key,
             pool_state: pool_account_key,
@@ -476,7 +476,7 @@ pub fn increase_liquidity_instr(
             vault_1_mint: token_mint_1,
         })
         .accounts(remaining_accounts)
-        .args(raydium_instruction::IncreaseLiquidityV2 {
+        .args(swap_instruction::IncreaseLiquidityV2 {
             liquidity,
             amount_0_max,
             amount_1_max,
@@ -542,7 +542,7 @@ pub fn decrease_liquidity_instr(
     );
     let instructions = program
         .request()
-        .accounts(raydium_accounts::DecreaseLiquidityV2 {
+        .accounts(swap_accounts::DecreaseLiquidityV2 {
             nft_owner: program.payer(),
             nft_account: nft_token_key,
             personal_position: personal_position_key,
@@ -561,7 +561,7 @@ pub fn decrease_liquidity_instr(
             vault_1_mint: token_mint_1,
         })
         .accounts(remaining_accounts)
-        .args(raydium_instruction::DecreaseLiquidityV2 {
+        .args(swap_instruction::DecreaseLiquidityV2 {
             liquidity,
             amount_0_min,
             amount_1_min,
@@ -587,7 +587,7 @@ pub fn close_personal_position_instr(
     );
     let instructions = program
         .request()
-        .accounts(raydium_accounts::ClosePosition {
+        .accounts(swap_accounts::ClosePosition {
             nft_owner: program.payer(),
             position_nft_mint: nft_mint_key,
             position_nft_account: nft_token_key,
@@ -595,7 +595,7 @@ pub fn close_personal_position_instr(
             system_program: system_program::id(),
             token_program: nft_token_program,
         })
-        .args(raydium_instruction::ClosePosition)
+        .args(swap_instruction::ClosePosition)
         .instructions()?;
     Ok(instructions)
 }
@@ -623,7 +623,7 @@ pub fn swap_instr(
     let program = client.program(config.swap_io_program)?;
     let instructions = program
         .request()
-        .accounts(raydium_accounts::SwapSingle {
+        .accounts(swap_accounts::SwapSingle {
             payer: program.payer(),
             amm_config,
             pool_state: pool_account_key,
@@ -636,7 +636,7 @@ pub fn swap_instr(
             token_program: spl_token::id(),
         })
         .accounts(remaining_accounts)
-        .args(raydium_instruction::Swap {
+        .args(swap_instruction::Swap {
             amount,
             other_amount_threshold,
             sqrt_price_limit_x64: sqrt_price_limit_x64.unwrap_or(0u128),
@@ -670,7 +670,7 @@ pub fn swap_v2_instr(
     let program = client.program(config.swap_io_program)?;
     let instructions = program
         .request()
-        .accounts(raydium_accounts::SwapSingleV2 {
+        .accounts(swap_accounts::SwapSingleV2 {
             payer: program.payer(),
             amm_config,
             pool_state: pool_account_key,
@@ -686,7 +686,7 @@ pub fn swap_v2_instr(
             output_vault_mint,
         })
         .accounts(remaining_accounts)
-        .args(raydium_instruction::SwapV2 {
+        .args(swap_instruction::SwapV2 {
             amount,
             other_amount_threshold,
             sqrt_price_limit_x64: sqrt_price_limit_x64.unwrap_or(0u128),
@@ -717,7 +717,7 @@ pub fn initialize_reward_instr(
 
     let instructions = program
         .request()
-        .accounts(raydium_accounts::InitializeReward {
+        .accounts(swap_accounts::InitializeReward {
             reward_funder: program.payer(),
             funder_token_account: user_reward_token,
             amm_config,
@@ -729,7 +729,7 @@ pub fn initialize_reward_instr(
             system_program: system_program::id(),
             rent: sysvar::rent::id(),
         })
-        .args(raydium_instruction::InitializeReward {
+        .args(swap_instruction::InitializeReward {
             param: swap_io_clmm::instructions::InitializeRewardParam {
                 open_time,
                 end_time,
@@ -766,7 +766,7 @@ pub fn set_reward_params_instr(
 
     let instructions = program
         .request()
-        .accounts(raydium_accounts::SetRewardParams {
+        .accounts(swap_accounts::SetRewardParams {
             authority: program.payer(),
             amm_config,
             pool_state: pool_account_key,
@@ -775,7 +775,7 @@ pub fn set_reward_params_instr(
             token_program_2022: spl_token_2022::id(),
         })
         .accounts(remaining_accounts)
-        .args(raydium_instruction::SetRewardParams {
+        .args(swap_instruction::SetRewardParams {
             reward_index,
             emissions_per_second_x64,
             open_time,
@@ -800,7 +800,7 @@ pub fn transfer_reward_owner(
 
     let instructions = program
         .request()
-        .accounts(raydium_accounts::TransferRewardOwner {
+        .accounts(swap_accounts::TransferRewardOwner {
             authority: if encode {
                 authority.unwrap()
             } else {
@@ -808,7 +808,7 @@ pub fn transfer_reward_owner(
             },
             pool_state: pool_account_key,
         })
-        .args(raydium_instruction::TransferRewardOwner { new_owner })
+        .args(swap_instruction::TransferRewardOwner { new_owner })
         .instructions()?;
     Ok(instructions)
 }
